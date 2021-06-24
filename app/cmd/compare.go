@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/url"
 	"strings"
@@ -65,7 +66,11 @@ var compareCmd = &cobra.Command{
 			}
 
 			if authority.SchemeType.String() != strings.ToUpper(schemeType) {
-				log.Fatal(errors.New("authority with ID does not belong to scheme: " + schemeType))
+				log.Fatal(errors.New(fmt.Sprintf(
+					"authority with ID %s does not belong to scheme: %s",
+					authorityID,
+					strings.ToUpper(schemeType),
+				)))
 			}
 
 			e, err := fsaService.GetEstablishments(authorityID)
@@ -74,9 +79,15 @@ var compareCmd = &cobra.Command{
 			}
 
 			if authority.SchemeType.String() == "FHRS" {
-				fsaSchemeRatingDistributions = append(fsaSchemeRatingDistributions, model.NewFhrsSchemeRatingDistribution(authority, e.Establishments))
+				fsaSchemeRatingDistributions = append(
+					fsaSchemeRatingDistributions,
+					model.NewFhrsSchemeRatingDistribution(authority, e.Establishments),
+				)
 			} else {
-				fsaSchemeRatingDistributions = append(fsaSchemeRatingDistributions, model.NewFhisSchemeRatingDistribution(authority, e.Establishments))
+				fsaSchemeRatingDistributions = append(
+					fsaSchemeRatingDistributions,
+					model.NewFhisSchemeRatingDistribution(authority, e.Establishments),
+				)
 			}
 		}
 
