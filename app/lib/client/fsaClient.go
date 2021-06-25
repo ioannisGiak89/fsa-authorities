@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/model"
+	"github.com/ioannisGiak89/fsa-authorities/app/model"
 )
 
 // FsaClient defines the FsaClient client
 type FsaClient interface {
 	// Get does a get request to an endpoint
-	Get(path string) ([]byte, error)
+	Get(path string) (*model.CustomResponse, error)
 }
 
 // HTTPClient interface. This interface is implemented by http.Client and is used for mocking
@@ -26,15 +26,15 @@ type FsaRestClient struct {
 	client  HTTPClient
 }
 
-// Creates a new Form3 rest client
-func NewFsa3RestClient(baseUrl *url.URL, httpClient HTTPClient) FsaClient {
+// Creates a new FsaRestClient
+func NewFsaRestClient(baseUrl *url.URL, httpClient HTTPClient) FsaClient {
 	return &FsaRestClient{
 		baseUrl: baseUrl,
 		client:  httpClient,
 	}
 }
 
-func (cl *FsaRestClient) Get(path string) ([]byte, error) {
+func (cl *FsaRestClient) Get(path string) (*model.CustomResponse, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(
 		"%s%s",
 		cl.baseUrl.String(),
@@ -62,12 +62,15 @@ func (cl *FsaRestClient) Get(path string) ([]byte, error) {
 		return nil, err
 	}
 
-	if res.StatusCode != http.StatusOK {
-		return nil, &model.HttpError{
-			Status:  res.StatusCode,
-			Message: string(resBody),
-		}
+	if res.StatusCode == http.StatusOK {
+		return &model.CustomResponse{
+			StatusCode:   res.StatusCode,
+			ResponseBody: resBody,
+		}, nil
 	}
 
-	return resBody, nil
+	return nil, &model.HttpError{
+		StatusCode: res.StatusCode,
+		Message:    string(resBody),
+	}
 }

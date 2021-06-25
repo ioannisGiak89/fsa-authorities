@@ -8,7 +8,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "authorities",
+	Use:   "fsa-authorities",
 	Short: "A CLI tool to compare the food hygiene rating distribution local authorities",
 }
 

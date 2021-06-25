@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/lib/factory"
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/model"
+	"github.com/ioannisGiak89/fsa-authorities/app/lib/factory"
+	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/spf13/cobra"
 )
 
@@ -49,23 +49,33 @@ var compareCmd = &cobra.Command{
 	Args:  cobra.MaximumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		baseUrl, err := url.Parse("http://api.ratings.food.gov.uk/")
-
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		appFactory := factory.NewAppFactory()
 		fsaClient := appFactory.BuildFsaClient(baseUrl)
-		fsaService := appFactory.BuildFsaService(&fsaClient)
+		fsaService := appFactory.BuildFsaService(fsaClient)
+		validator := appFactory.BuildValidator()
+
+		if !validator.IsSchemeValid(schemeType) {
+			log.Fatal(errors.New("not supported scheme"))
+		}
 
 		var fsaSchemeRatingDistributions []model.FsaSchemeRatingDistribution
 		for _, authorityID := range authorityIds {
+
+			if !validator.IsIdValid(authorityID) {
+				log.Fatal(errors.New("please provide a valid authority ID"))
+			}
+
 			authority, err := fsaService.GetAuthorityByID(authorityID)
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			if authority.SchemeType.String() != strings.ToUpper(schemeType) {
+			authorityScheme := authority.SchemeType.String()
+			if authorityScheme != strings.ToUpper(schemeType) {
 				log.Fatal(errors.New(fmt.Sprintf(
 					"authority with ID %s does not belong to scheme: %s",
 					authorityID,
@@ -78,7 +88,7 @@ var compareCmd = &cobra.Command{
 				log.Fatal(err)
 			}
 
-			if authority.SchemeType.String() == "FHRS" {
+			if authorityScheme == model.FHRS.String() {
 				fsaSchemeRatingDistributions = append(
 					fsaSchemeRatingDistributions,
 					model.NewFhrsSchemeRatingDistribution(authority, e.Establishments),

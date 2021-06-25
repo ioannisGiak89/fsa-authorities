@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/utils"
+	"github.com/ioannisGiak89/fsa-authorities/app/utils"
 )
 
 // FsaSchemeRatingDistribution interface for FSA schemes distribution

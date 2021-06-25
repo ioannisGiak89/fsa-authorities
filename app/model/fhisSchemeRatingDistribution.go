@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/utils"
+	"github.com/ioannisGiak89/fsa-authorities/app/utils"
 )
 
 // FhisSchemeRatingDistribution represents a rating distribution for authorities in FHIS scheme
@@ -46,7 +46,6 @@ func (f *FhisSchemeRatingDistribution) CalculatePercentages() {
 			f.PassAndEatSafe.Total += 1
 			break
 		default:
-			fmt.Printf("%+v\n", establishment)
 			fmt.Println("Fhis: Unknown rating value " + establishment.RatingValue)
 			break
 		}

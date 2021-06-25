@@ -9,10 +9,10 @@ type error interface {
 
 // HttpError sustom error to hold information regarding the HTTTP status code
 type HttpError struct {
-	Status  int
-	Message string
+	StatusCode int
+	Message    string
 }
 
 func (he *HttpError) Error() string {
-	return fmt.Sprintf("Error code %d: %s", he.Status, he.Message)
+	return fmt.Sprintf("Error code %d: %s", he.StatusCode, he.Message)
 }

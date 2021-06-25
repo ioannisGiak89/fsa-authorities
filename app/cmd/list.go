@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/url"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/lib/factory"
+	"github.com/ioannisGiak89/fsa-authorities/app/lib/factory"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
@@ -22,7 +22,7 @@ var listCmd = &cobra.Command{
 
 		appFactory := factory.NewAppFactory()
 		fsaClient := appFactory.BuildFsaClient(baseUrl)
-		fsaService := appFactory.BuildFsaService(&fsaClient)
+		fsaService := appFactory.BuildFsaService(fsaClient)
 
 		response, err := fsaService.GetAuthorities()
 

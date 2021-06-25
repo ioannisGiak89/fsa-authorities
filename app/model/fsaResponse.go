@@ -1,5 +1,11 @@
 package model
 
+// CustomResponse is used to keep the status code in FSA client
+type CustomResponse struct {
+	StatusCode   int
+	ResponseBody []byte
+}
+
 // AuthoritiesResponse is a FSA response for /Authorities/basic
 type AuthoritiesResponse struct {
 	Authorities []Authority

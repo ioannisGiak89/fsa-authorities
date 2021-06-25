@@ -3,8 +3,8 @@ package service
 import (
 	"encoding/json"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/lib/client"
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/model"
+	"github.com/ioannisGiak89/fsa-authorities/app/lib/client"
+	"github.com/ioannisGiak89/fsa-authorities/app/model"
 )
 
 // HygieneRatingSystemService defines the Hygiene Rating System Service
@@ -25,22 +25,22 @@ type FsaService struct {
 }
 
 // NewFsaService creates a new FsaService
-func NewFsaService(fsaClient *client.FsaClient) HygieneRatingSystemService {
+func NewFsaService(fsaClient client.FsaClient) HygieneRatingSystemService {
 	return &FsaService{
-		fsaClient: *fsaClient,
+		fsaClient: fsaClient,
 	}
 }
 
 func (fs *FsaService) GetAuthorityByID(authorityId string) (*model.Authority, error) {
 
-	responseBody, err := fs.fsaClient.Get("Authorities/" + authorityId)
+	cr, err := fs.fsaClient.Get("Authorities/" + authorityId)
 
 	if err != nil {
 		return nil, err
 	}
 
 	var authority model.Authority
-	err = json.Unmarshal(responseBody, &authority)
+	err = json.Unmarshal(cr.ResponseBody, &authority)
 
 	if err != nil {
 		return nil, err
@@ -50,14 +50,14 @@ func (fs *FsaService) GetAuthorityByID(authorityId string) (*model.Authority, er
 }
 
 func (fs *FsaService) GetAuthorities() (*model.AuthoritiesResponse, error) {
-	responseBody, err := fs.fsaClient.Get("Authorities/basic")
+	cr, err := fs.fsaClient.Get("Authorities/basic")
 
 	if err != nil {
 		return nil, err
 	}
 
 	var authorities model.AuthoritiesResponse
-	err = json.Unmarshal(responseBody, &authorities)
+	err = json.Unmarshal(cr.ResponseBody, &authorities)
 
 	if err != nil {
 		return nil, err
@@ -67,14 +67,14 @@ func (fs *FsaService) GetAuthorities() (*model.AuthoritiesResponse, error) {
 }
 
 func (fs *FsaService) GetEstablishments(authorityId string) (*model.EstablishmentsResponse, error) {
-	responseBody, err := fs.fsaClient.Get("Establishments?localAuthorityId=" + authorityId)
+	cr, err := fs.fsaClient.Get("Establishments?localAuthorityId=" + authorityId)
 
 	if err != nil {
 		return nil, err
 	}
 
 	var establishments model.EstablishmentsResponse
-	err = json.Unmarshal(responseBody, &establishments)
+	err = json.Unmarshal(cr.ResponseBody, &establishments)
 
 	if err != nil {
 		return nil, err

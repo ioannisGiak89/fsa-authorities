@@ -2,34 +2,10 @@ package render
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/ioannisGiak89/compare-fsa-ratings/app/model"
+	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/jedib0t/go-pretty/v6/table"
 )
-
-// Table represents a standard table
-type Table struct {
-	rows      []table.Row
-	header    table.Row
-	subHeader table.Row
-}
-
-// NewTable creates a new Table
-func NewTable(rows []table.Row, header table.Row, subHeader table.Row) *Table {
-	return &Table{rows: rows, header: header, subHeader: subHeader}
-}
-
-// Render renders a table
-func (t *Table) Render() {
-	pt := table.NewWriter()
-	pt.SetOutputMirror(os.Stdout)
-	pt.AppendHeader(t.header, table.RowConfig{AutoMerge: true})
-	pt.AppendHeader(t.subHeader)
-	pt.AppendRows(t.rows)
-	pt.AppendSeparator()
-	pt.Render()
-}
 
 // CompareTable table used for comparing distributions
 type CompareTable struct {
@@ -117,11 +93,11 @@ func (t *CompareTable) createAndRenderFhisTable() {
 			t.header = append(t.header, f.Authority.Name, f.Authority.Name)
 			t.subHeader = append(t.subHeader, "Percentage", "Total")
 			passRow = append(passRow, f.Pass.Percentage, f.Pass.Total)
-			improvementRequiredRow = append(improvementRequiredRow, f.ImprovementRequired.Percentage, f.ImprovementRequired.Total)
-			awaitingPublicationRow = append(awaitingPublicationRow, f.AwaitingPublication.Percentage, f.AwaitingPublication.Total)
 			exemptRow = append(exemptRow, f.Exempt.Percentage, f.Exempt.Total)
-			awaitingInspectionRow = append(awaitingInspectionRow, f.AwaitingInspection.Percentage, f.AwaitingInspection.Total)
 			passAndEatSafeRow = append(passAndEatSafeRow, f.PassAndEatSafe.Percentage, f.PassAndEatSafe.Total)
+			awaitingInspectionRow = append(awaitingInspectionRow, f.AwaitingInspection.Percentage, f.AwaitingInspection.Total)
+			awaitingPublicationRow = append(awaitingPublicationRow, f.AwaitingPublication.Percentage, f.AwaitingPublication.Total)
+			improvementRequiredRow = append(improvementRequiredRow, f.ImprovementRequired.Percentage, f.ImprovementRequired.Total)
 		}
 	}
 
