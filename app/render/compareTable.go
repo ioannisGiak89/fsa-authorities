@@ -37,12 +37,12 @@ func (t *CompareTable) CreateTableAndRender() {
 func (t *CompareTable) createAndRenderFhrsTable() {
 	t.header = table.Row{"Rating"}
 	t.subHeader = table.Row{""}
-	fiveStarRow := table.Row{"Five Star"}
-	fourStarRow := table.Row{"Four Star"}
-	threeStarRow := table.Row{"Three Star"}
-	twoStarRow := table.Row{"Two Star"}
-	oneStarRow := table.Row{"One Star"}
-	zeroStarRow := table.Row{"Zero Star"}
+	fiveStarRow := table.Row{"Five Stars"}
+	fourStarRow := table.Row{"Four Stars"}
+	threeStarRow := table.Row{"Three Stars"}
+	twoStarRow := table.Row{"Two Stars"}
+	oneStarRow := table.Row{"One Stars"}
+	zeroStarRow := table.Row{"Zero Stars"}
 	exemptRow := table.Row{"Exempt"}
 	awaitingInspectionRow := table.Row{"Awaiting Inspection"}
 
