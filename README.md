@@ -1,8 +1,8 @@
 
 # compare-fsa-ratings
 
-A cli tool to compare the food hygiene rating distribution
-of two local authorities.
+A cli tool to compare the food hygiene rating distributions
+of two local authorities written in GO.
 
 
 
@@ -50,8 +50,7 @@ Displays a table with all the available authorities alongside with their ID and 
 Compare 2 or more food hygiene rating distributions
 of two or more authorities
 
-##### flags
-| Flag        | Shorthand   | Description
+| Flags        | Shorthand   | Description
 | ----------- | ----------- | ----------
 | --authorityIds      | -a       | A comma separated list with the local authority IDs to compare
 | --schemeType   | -s        | The scheme type the authorities belong to
