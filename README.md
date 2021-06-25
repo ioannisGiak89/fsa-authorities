@@ -47,7 +47,7 @@ Displays a table with all the available authorities alongside with their ID and 
 
 #### compare
 
-Compare 2 or more food hygiene rating distributions
+Compare food hygiene rating distributions
 of two or more authorities
 
 | Flags        | Shorthand   | Description
