@@ -23,13 +23,13 @@ func (cl *mockedHttpClient) Do(req *http.Request) (*http.Response, error) {
 	return cl.MockDo(req)
 }
 
-func TestFsaRestClient_Get(t *testing.T) {
+func TestFSARestClient_Get(t *testing.T) {
 
 	baseURL, err := url.Parse("http://localhost:8080/")
 	require.NoError(t, err)
 
 	t.Run("should return an error if the request fails", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {
@@ -45,7 +45,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 	})
 
 	t.Run("should return an error if status code is 404", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {
@@ -59,7 +59,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 
 		responseBody, err := fsaClient.Get("path/to/form3/resource/endpoint")
 
-		assert.Equal(t, &model.HttpError{
+		assert.Equal(t, &model.HTTPError{
 			StatusCode: http.StatusNotFound,
 			Message:    "not found",
 		}, err)
@@ -67,7 +67,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 	})
 
 	t.Run("should return an error if status code is 403", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {
@@ -81,7 +81,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 
 		responseBody, err := fsaClient.Get("path/to/form3/resource/endpoint")
 
-		assert.Equal(t, &model.HttpError{
+		assert.Equal(t, &model.HTTPError{
 			StatusCode: http.StatusForbidden,
 			Message:    "Forbidden",
 		}, err)
@@ -89,7 +89,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 	})
 
 	t.Run("should return an error if status code is 400", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {
@@ -103,7 +103,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 
 		responseBody, err := fsaClient.Get("path/to/form3/resource/endpoint")
 
-		assert.Equal(t, &model.HttpError{
+		assert.Equal(t, &model.HTTPError{
 			StatusCode: http.StatusBadRequest,
 			Message:    "Bad request",
 		}, err)
@@ -111,7 +111,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 	})
 
 	t.Run("should return an error if status code is 500", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {
@@ -125,7 +125,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 
 		responseBody, err := fsaClient.Get("path/to/form3/resource/endpoint")
 
-		assert.Equal(t, &model.HttpError{
+		assert.Equal(t, &model.HTTPError{
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Interval Server",
 		}, err)
@@ -133,7 +133,7 @@ func TestFsaRestClient_Get(t *testing.T) {
 	})
 
 	t.Run("should return a custom response is status code is 200", func(t *testing.T) {
-		fsaClient := client.NewFsaRestClient(
+		fsaClient := client.NewFSARestClient(
 			baseURL,
 			&mockedHttpClient{
 				MockDo: func(req *http.Request) (*http.Response, error) {

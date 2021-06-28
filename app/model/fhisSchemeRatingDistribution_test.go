@@ -4,13 +4,13 @@ import (
 	"testing"
 
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
-	"github.com/ioannisGiak89/fsa-authorities/testUtils"
+	"github.com/ioannisGiak89/fsa-authorities/testutils"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFhisSchemeRatingDistribution_CalculatePercentages(t *testing.T) {
+func TestFHISSchemeRatingDistribution_CalculatePercentages(t *testing.T) {
 	t.Run("should calculate the rating distribution for fhis scheme", func(t *testing.T) {
-		fi := model.NewFhisSchemeRatingDistribution(testUtils.GetFakeAuthority(), testUtils.GetFakeFhisEstablishments())
+		fi := model.NewFHISSchemeRatingDistribution(testutils.GetFakeAuthority(), testutils.GetFakeFHISEstablishments())
 		fi.CalculatePercentages()
 		assert.Equal(
 			t,

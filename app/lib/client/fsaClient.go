@@ -9,8 +9,8 @@ import (
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 )
 
-// FsaClient defines the FsaClient client
-type FsaClient interface {
+// FSAClient defines the FSAClient client
+type FSAClient interface {
 	// Get does a get request to an endpoint
 	Get(path string) (*model.CustomResponse, error)
 }
@@ -20,21 +20,21 @@ type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-// FsaRestClient implements the FsaClient interface
-type FsaRestClient struct {
+// FSARESTClient implements the FSAClient interface
+type FSARESTClient struct {
 	baseUrl *url.URL
 	client  HTTPClient
 }
 
-// Creates a new FsaRestClient
-func NewFsaRestClient(baseUrl *url.URL, httpClient HTTPClient) FsaClient {
-	return &FsaRestClient{
+// NewFSARestClient returns a new FSARESTClient instance.
+func NewFSARestClient(baseUrl *url.URL, httpClient HTTPClient) *FSARESTClient {
+	return &FSARESTClient{
 		baseUrl: baseUrl,
 		client:  httpClient,
 	}
 }
 
-func (cl *FsaRestClient) Get(path string) (*model.CustomResponse, error) {
+func (cl *FSARESTClient) Get(path string) (*model.CustomResponse, error) {
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(
 		"%s%s",
 		cl.baseUrl.String(),
@@ -69,7 +69,7 @@ func (cl *FsaRestClient) Get(path string) (*model.CustomResponse, error) {
 		}, nil
 	}
 
-	return nil, &model.HttpError{
+	return nil, &model.HTTPError{
 		StatusCode: res.StatusCode,
 		Message:    string(resBody),
 	}

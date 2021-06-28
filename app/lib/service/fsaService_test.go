@@ -9,11 +9,11 @@ import (
 
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/service"
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
-	"github.com/ioannisGiak89/fsa-authorities/testUtils"
+	"github.com/ioannisGiak89/fsa-authorities/testutils"
 	"github.com/stretchr/testify/require"
 )
 
-// Implements FsaClient interface. This struct is used to mock the FsaRestClient
+// Implements the FSAClient interface. This struct is used to mock the FSARESTClient
 type mockedHttpClient struct {
 	baseUrl *url.URL
 	MockGet func(path string) (*model.CustomResponse, error)
@@ -23,9 +23,9 @@ func (m mockedHttpClient) Get(path string) (*model.CustomResponse, error) {
 	return m.MockGet(path)
 }
 
-func TestFsaService_GetAuthorities(t *testing.T) {
+func TestFSAService_GetAuthorities(t *testing.T) {
 	t.Run("should return an AuthoritiesResponse", func(t *testing.T) {
-		expectedResponse := testUtils.GetFakeAuthoritiesResponse()
+		expectedResponse := testutils.GetFakeAuthoritiesResponse()
 		jsonResponse, err := json.Marshal(expectedResponse)
 		require.NoError(t, err)
 
@@ -34,7 +34,7 @@ func TestFsaService_GetAuthorities(t *testing.T) {
 			ResponseBody: jsonResponse,
 		}
 
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return mockedResponse, nil
 			},
@@ -46,9 +46,9 @@ func TestFsaService_GetAuthorities(t *testing.T) {
 	})
 
 	t.Run("should return an error if the client fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
-				return nil, &model.HttpError{
+				return nil, &model.HTTPError{
 					StatusCode: 404,
 					Message:    "Not found",
 				}
@@ -57,14 +57,14 @@ func TestFsaService_GetAuthorities(t *testing.T) {
 
 		response, err := fsaService.GetAuthorities()
 		assert.Nil(t, response)
-		assert.Equal(t, err, &model.HttpError{
+		assert.Equal(t, err, &model.HTTPError{
 			StatusCode: 404,
 			Message:    "Not found",
 		})
 	})
 
 	t.Run("should return an error if unmarshal fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return &model.CustomResponse{
 					StatusCode:   200,
@@ -79,9 +79,9 @@ func TestFsaService_GetAuthorities(t *testing.T) {
 	})
 }
 
-func TestFsaService_GetAuthorityByID(t *testing.T) {
+func TestFSAService_GetAuthorityByID(t *testing.T) {
 	t.Run("should return an Authority", func(t *testing.T) {
-		expectedResponse := testUtils.GetFakeAuthority()
+		expectedResponse := testutils.GetFakeAuthority()
 		jsonResponse, err := json.Marshal(expectedResponse)
 		require.NoError(t, err)
 
@@ -90,7 +90,7 @@ func TestFsaService_GetAuthorityByID(t *testing.T) {
 			ResponseBody: jsonResponse,
 		}
 
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return mockedResponse, nil
 			},
@@ -102,9 +102,9 @@ func TestFsaService_GetAuthorityByID(t *testing.T) {
 	})
 
 	t.Run("should return an error if the client fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
-				return nil, &model.HttpError{
+				return nil, &model.HTTPError{
 					StatusCode: 404,
 					Message:    "Not found",
 				}
@@ -113,14 +113,14 @@ func TestFsaService_GetAuthorityByID(t *testing.T) {
 
 		response, err := fsaService.GetAuthorityByID("197")
 		assert.Nil(t, response)
-		assert.Equal(t, err, &model.HttpError{
+		assert.Equal(t, err, &model.HTTPError{
 			StatusCode: 404,
 			Message:    "Not found",
 		})
 	})
 
 	t.Run("should return an error if unmarshal fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return &model.CustomResponse{
 					StatusCode:   200,
@@ -135,9 +135,9 @@ func TestFsaService_GetAuthorityByID(t *testing.T) {
 	})
 }
 
-func TestFsaService_GetEstablishments(t *testing.T) {
+func TestFSAService_GetEstablishments(t *testing.T) {
 	t.Run("should return an EstablishmentsResponse", func(t *testing.T) {
-		expectedResponse := testUtils.GetFakeEstablishmentsResponse()
+		expectedResponse := testutils.GetFakeEstablishmentsResponse()
 		jsonResponse, err := json.Marshal(expectedResponse)
 		require.NoError(t, err)
 
@@ -146,7 +146,7 @@ func TestFsaService_GetEstablishments(t *testing.T) {
 			ResponseBody: jsonResponse,
 		}
 
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return mockedResponse, nil
 			},
@@ -158,9 +158,9 @@ func TestFsaService_GetEstablishments(t *testing.T) {
 	})
 
 	t.Run("should return an error if the client fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
-				return nil, &model.HttpError{
+				return nil, &model.HTTPError{
 					StatusCode: 404,
 					Message:    "Not found",
 				}
@@ -169,14 +169,14 @@ func TestFsaService_GetEstablishments(t *testing.T) {
 
 		response, err := fsaService.GetEstablishments("197")
 		assert.Nil(t, response)
-		assert.Equal(t, err, &model.HttpError{
+		assert.Equal(t, err, &model.HTTPError{
 			StatusCode: 404,
 			Message:    "Not found",
 		})
 	})
 
 	t.Run("should return an error if unmarshal fails", func(t *testing.T) {
-		fsaService := service.NewFsaService(&mockedHttpClient{
+		fsaService := service.NewFSAService(&mockedHttpClient{
 			MockGet: func(path string) (*model.CustomResponse, error) {
 				return &model.CustomResponse{
 					StatusCode:   200,

@@ -54,15 +54,15 @@ var compareCmd = &cobra.Command{
 		}
 
 		appFactory := factory.NewAppFactory()
-		fsaClient := appFactory.BuildFsaClient(baseUrl)
-		fsaService := appFactory.BuildFsaService(fsaClient)
+		fsaClient := appFactory.BuildFSAClient(baseUrl)
+		fsaService := appFactory.BuildFSAService(fsaClient)
 		validator := appFactory.BuildValidator()
 
 		if !validator.IsSchemeValid(schemeType) {
 			log.Fatal(errors.New("not supported scheme"))
 		}
 
-		var fsaSchemeRatingDistributions []model.FsaSchemeRatingDistribution
+		var fsaSchemeRatingDistributions []model.FSASchemeRatingDistribution
 		for _, authorityID := range authorityIds {
 
 			if !validator.IsIdValid(authorityID) {
@@ -91,12 +91,12 @@ var compareCmd = &cobra.Command{
 			if authorityScheme == model.FHRS.String() {
 				fsaSchemeRatingDistributions = append(
 					fsaSchemeRatingDistributions,
-					model.NewFhrsSchemeRatingDistribution(authority, e.Establishments),
+					model.NewFHRSSchemeRatingDistribution(authority, e.Establishments),
 				)
 			} else {
 				fsaSchemeRatingDistributions = append(
 					fsaSchemeRatingDistributions,
-					model.NewFhisSchemeRatingDistribution(authority, e.Establishments),
+					model.NewFHISSchemeRatingDistribution(authority, e.Establishments),
 				)
 			}
 		}

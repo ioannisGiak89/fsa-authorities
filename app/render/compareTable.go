@@ -7,25 +7,26 @@ import (
 	"github.com/jedib0t/go-pretty/v6/table"
 )
 
-// CompareTable table used for comparing distributions
+// CompareTable is used to render tables for comparing distributions of food standards results.
 type CompareTable struct {
-	ratingDistributions []model.FsaSchemeRatingDistribution
+	ratingDistributions []model.FSASchemeRatingDistribution
 	Table
 }
 
-// NewCompareTable creates a new CompareTable
-func NewCompareTable(ratingDistributions []model.FsaSchemeRatingDistribution) *CompareTable {
+// NewCompareTable creates a new CompareTable instance.
+func NewCompareTable(ratingDistributions []model.FSASchemeRatingDistribution) *CompareTable {
 	return &CompareTable{ratingDistributions: ratingDistributions}
 }
 
-// CreateTableAndRender checks the scheme type of establishments
+// CreateTableAndRender checks the scheme type of establishments, and renders an appropriate results
+// table for that scheme type.
 func (t *CompareTable) CreateTableAndRender() {
 	switch t.ratingDistributions[0].(type) {
-	case *model.FhrsSchemeRatingDistribution:
-		t.createAndRenderFhrsTable()
+	case *model.FHRSSchemeRatingDistribution:
+		t.createAndRenderFHRSTable()
 		break
-	case *model.FhisSchemeRatingDistribution:
-		t.createAndRenderFhisTable()
+	case *model.FHISSchemeRatingDistribution:
+		t.createAndRenderFHISTable()
 		break
 	default:
 		fmt.Println("scheme type not found")
@@ -33,8 +34,8 @@ func (t *CompareTable) CreateTableAndRender() {
 	}
 }
 
-// createAndRenderFhrsTable creates and renders a FhrsTable
-func (t *CompareTable) createAndRenderFhrsTable() {
+// createAndRenderFHRSTable creates and renders a FHRS results table.
+func (t *CompareTable) createAndRenderFHRSTable() {
 	t.header = table.Row{"Rating"}
 	t.subHeader = table.Row{""}
 	fiveStarRow := table.Row{"Five Stars"}
@@ -44,10 +45,11 @@ func (t *CompareTable) createAndRenderFhrsTable() {
 	oneStarRow := table.Row{"One Stars"}
 	zeroStarRow := table.Row{"Zero Stars"}
 	exemptRow := table.Row{"Exempt"}
+	passRow := table.Row{"Pass"}
 	awaitingInspectionRow := table.Row{"Awaiting Inspection"}
 
 	for _, fsd := range t.ratingDistributions {
-		if fhrsDistribution, ok := fsd.(*model.FhrsSchemeRatingDistribution); ok {
+		if fhrsDistribution, ok := fsd.(*model.FHRSSchemeRatingDistribution); ok {
 			fhrsDistribution.CalculatePercentages()
 			t.header = append(t.header, fhrsDistribution.Authority.Name, fhrsDistribution.Authority.Name)
 			t.subHeader = append(t.subHeader, "Percentage", "Total")
@@ -58,6 +60,7 @@ func (t *CompareTable) createAndRenderFhrsTable() {
 			oneStarRow = append(oneStarRow, fhrsDistribution.OneStar.Percentage, fhrsDistribution.OneStar.Total)
 			zeroStarRow = append(zeroStarRow, fhrsDistribution.ZeroStar.Percentage, fhrsDistribution.ZeroStar.Total)
 			exemptRow = append(exemptRow, fhrsDistribution.Exempt.Percentage, fhrsDistribution.Exempt.Total)
+			passRow = append(passRow, fhrsDistribution.Pass.Percentage, fhrsDistribution.Pass.Total)
 			awaitingInspectionRow = append(awaitingInspectionRow, fhrsDistribution.AwaitingInspection.Percentage, fhrsDistribution.AwaitingInspection.Total)
 		}
 	}
@@ -70,14 +73,15 @@ func (t *CompareTable) createAndRenderFhrsTable() {
 		oneStarRow,
 		zeroStarRow,
 		exemptRow,
+		passRow,
 		awaitingInspectionRow,
 	}
 
 	t.Render()
 }
 
-// createAndRenderFhisTable creates and renders a FhisTable
-func (t *CompareTable) createAndRenderFhisTable() {
+// createAndRenderFHISTable creates and renders a FHIS results table.
+func (t *CompareTable) createAndRenderFHISTable() {
 	t.header = table.Row{"Rating"}
 	t.subHeader = table.Row{""}
 	passRow := table.Row{"Pass"}
@@ -88,7 +92,7 @@ func (t *CompareTable) createAndRenderFhisTable() {
 	passAndEatSafeRow := table.Row{"Pass And Eat Safe"}
 
 	for _, fsd := range t.ratingDistributions {
-		if f, ok := fsd.(*model.FhisSchemeRatingDistribution); ok {
+		if f, ok := fsd.(*model.FHISSchemeRatingDistribution); ok {
 			f.CalculatePercentages()
 			t.header = append(t.header, f.Authority.Name, f.Authority.Name)
 			t.subHeader = append(t.subHeader, "Percentage", "Total")

@@ -1,4 +1,4 @@
-package testUtils
+package testutils
 
 import "github.com/ioannisGiak89/fsa-authorities/app/model"
 
@@ -26,11 +26,11 @@ func GetFakeAuthority() *model.Authority {
 
 func GetFakeEstablishmentsResponse() *model.EstablishmentsResponse {
 	return &model.EstablishmentsResponse{
-		Establishments: GetFakeFhrsEstablishments(),
+		Establishments: GetFakeFHRSEstablishments(),
 	}
 }
 
-func GetFakeFhrsEstablishments() []model.Establishment {
+func GetFakeFHRSEstablishments() []model.Establishment {
 	return []model.Establishment{
 		{RatingValue: "1", SchemeType: "FHRS"},
 		{RatingValue: "1", SchemeType: "FHRS"},
@@ -45,7 +45,7 @@ func GetFakeFhrsEstablishments() []model.Establishment {
 	}
 }
 
-func GetFakeFhisEstablishments() []model.Establishment {
+func GetFakeFHISEstablishments() []model.Establishment {
 	return []model.Establishment{
 		{RatingValue: "Pass", SchemeType: "FHIS"},
 		{RatingValue: "Pass", SchemeType: "FHIS"},

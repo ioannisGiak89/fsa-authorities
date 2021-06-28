@@ -7,8 +7,8 @@ import (
 	"github.com/ioannisGiak89/fsa-authorities/app/utils"
 )
 
-// FhisSchemeRatingDistribution represents a rating distribution for authorities in FHIS scheme
-type FhisSchemeRatingDistribution struct {
+// FHISSchemeRatingDistribution represents a rating distribution for authorities in FHIS scheme
+type FHISSchemeRatingDistribution struct {
 	Authority           *Authority
 	Establishments      []Establishment
 	Pass                DistributionResults
@@ -19,12 +19,12 @@ type FhisSchemeRatingDistribution struct {
 	Exempt              DistributionResults
 }
 
-// NewFhisSchemeRatingDistribution creates a new FhisSchemeRatingDistribution
-func NewFhisSchemeRatingDistribution(authority *Authority, establishments []Establishment) *FhisSchemeRatingDistribution {
-	return &FhisSchemeRatingDistribution{Authority: authority, Establishments: establishments}
+// NewFHISSchemeRatingDistribution creates a new FHISSchemeRatingDistribution
+func NewFHISSchemeRatingDistribution(authority *Authority, establishments []Establishment) *FHISSchemeRatingDistribution {
+	return &FHISSchemeRatingDistribution{Authority: authority, Establishments: establishments}
 }
 
-func (f *FhisSchemeRatingDistribution) CalculatePercentages() {
+func (f *FHISSchemeRatingDistribution) CalculatePercentages() {
 	for _, establishment := range f.Establishments {
 		switch strings.TrimSpace(establishment.RatingValue) {
 		case "Pass":
@@ -46,7 +46,7 @@ func (f *FhisSchemeRatingDistribution) CalculatePercentages() {
 			f.PassAndEatSafe.Total += 1
 			break
 		default:
-			fmt.Println("Fhis: Unknown rating value " + establishment.RatingValue)
+			fmt.Println("FHIS: Unknown rating value " + establishment.RatingValue)
 			break
 		}
 	}

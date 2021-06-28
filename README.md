@@ -1,10 +1,7 @@
-
 # compare-fsa-ratings
 
-A cli tool to compare the food hygiene rating distributions
-of two local authorities written in GO.
-
-
+A CLI tool to compare the food hygiene rating distributions
+of two local authorities written in Go.
 
 ## Installation
 
@@ -20,12 +17,6 @@ Go to the project directory
   cd fsa-authorities
 ```
 
-Get dependencies
-
-```bash
-  go get -d -v ./...
-```
-
 Install
 
 ```bash
@@ -39,7 +30,6 @@ fsa-authorities help
 ```
 
 ## Available commands
-
 
 #### list
 
@@ -64,17 +54,18 @@ To run tests, run the following command
 ```
 
   
-## Usage/Examples
+## Usage Examples
 
 ```bash
 fsa-authorities list
 fsa-authorities compare -s fhrs -a 358,359
 fsa-authorities compare -s fhis -a 206,227
 ```
+
 ## Future improvements
 
 1. Add some integration tests to actually test the commands
-1. Add some more test cases for the distribution calculators
-1. Add support for configuration, e.g baseUrl, endpoints etc can be configurable via environment variables or a config command
-1. Locally cache responses to avoid calling the API too often  
+2. Add some more test cases for the distribution calculators
+3. Add support for configuration, e.g baseUrl, endpoints etc can be configurable via environment variables or a config command
+4. Locally cache responses to avoid calling the API too often  
 
