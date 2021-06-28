@@ -6,7 +6,6 @@ import (
 
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/client"
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/service"
-	"github.com/ioannisGiak89/fsa-authorities/app/lib/validator"
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/ioannisGiak89/fsa-authorities/app/render"
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -22,8 +21,6 @@ type FSAFactory interface {
 	BuildCompareTable([]model.FSASchemeRatingDistribution) *render.CompareTable
 	// BuildTable builds a basic table for rendering
 	BuildTable(rows []table.Row, header table.Row, subHeader table.Row) *render.Table
-	// BuildValidator builds a validator
-	BuildValidator() *validator.Validator
 }
 
 // AppFactory builds services
@@ -48,8 +45,4 @@ func (f *AppFactory) BuildCompareTable(distributions []model.FSASchemeRatingDist
 
 func (f *AppFactory) BuildTable(rows []table.Row, header table.Row, subHeader table.Row) *render.Table {
 	return render.NewTable(rows, header, subHeader)
-}
-
-func (f *AppFactory) BuildValidator() *validator.Validator {
-	return validator.NewValidator()
 }

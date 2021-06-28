@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/factory"
+	"github.com/ioannisGiak89/fsa-authorities/app/lib/validation"
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/spf13/cobra"
 )
@@ -56,15 +57,14 @@ var compareCmd = &cobra.Command{
 		appFactory := factory.NewAppFactory()
 		fsaClient := appFactory.BuildFSAClient(baseUrl)
 		fsaService := appFactory.BuildFSAService(fsaClient)
-		validator := appFactory.BuildValidator()
 
-		if !validator.IsSchemeValid(schemeType) {
+		if !validation.IsSchemeValid(schemeType) {
 			log.Fatal(errors.New("not supported scheme"))
 		}
 
 		var fsaSchemeRatingDistributions []model.FSASchemeRatingDistribution
 		for _, authorityID := range authorityIds {
-			if !validator.IsIdValid(authorityID) {
+			if !validation.IsIDValid(authorityID) {
 				log.Fatal(errors.New("please provide a valid authority ID"))
 			}
 
