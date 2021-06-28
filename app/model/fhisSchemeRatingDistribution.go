@@ -29,25 +29,18 @@ func (f *FHISSchemeRatingDistribution) CalculatePercentages() {
 		switch strings.TrimSpace(establishment.RatingValue) {
 		case "Pass":
 			f.Pass.Total += 1
-			break
 		case "Improvement Required":
 			f.ImprovementRequired.Total += 1
-			break
 		case "Awaiting Inspection":
 			f.AwaitingInspection.Total += 1
-			break
 		case "Exempt":
 			f.Exempt.Total += 1
-			break
 		case "Awaiting Publication":
 			f.AwaitingPublication.Total += 1
-			break
 		case "Pass and Eat Safe":
 			f.PassAndEatSafe.Total += 1
-			break
 		default:
 			fmt.Println("FHIS: Unknown rating value " + establishment.RatingValue)
-			break
 		}
 	}
 

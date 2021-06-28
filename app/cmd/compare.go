@@ -64,7 +64,6 @@ var compareCmd = &cobra.Command{
 
 		var fsaSchemeRatingDistributions []model.FSASchemeRatingDistribution
 		for _, authorityID := range authorityIds {
-
 			if !validator.IsIdValid(authorityID) {
 				log.Fatal(errors.New("please provide a valid authority ID"))
 			}

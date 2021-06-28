@@ -24,13 +24,10 @@ func (t *CompareTable) CreateTableAndRender() {
 	switch t.ratingDistributions[0].(type) {
 	case *model.FHRSSchemeRatingDistribution:
 		t.createAndRenderFHRSTable()
-		break
 	case *model.FHISSchemeRatingDistribution:
 		t.createAndRenderFHISTable()
-		break
 	default:
 		fmt.Println("scheme type not found")
-		break
 	}
 }
 
