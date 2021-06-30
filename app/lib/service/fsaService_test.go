@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/service"
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/ioannisGiak89/fsa-authorities/testutils"

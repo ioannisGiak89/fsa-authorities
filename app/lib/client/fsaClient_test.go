@@ -24,7 +24,6 @@ func (cl *mockedHttpClient) Do(req *http.Request) (*http.Response, error) {
 }
 
 func TestFSARestClient_Get(t *testing.T) {
-
 	baseURL, err := url.Parse("http://localhost:8080/")
 	require.NoError(t, err)
 
