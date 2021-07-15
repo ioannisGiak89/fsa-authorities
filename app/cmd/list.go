@@ -21,8 +21,8 @@ var listCmd = &cobra.Command{
 		}
 
 		appFactory := factory.NewAppFactory()
-		fsaClient := appFactory.BuildFsaClient(baseUrl)
-		fsaService := appFactory.BuildFsaService(fsaClient)
+		fsaClient := appFactory.BuildFSAClient(baseUrl)
+		fsaService := appFactory.BuildFSAService(fsaClient)
 
 		response, err := fsaService.GetAuthorities()
 

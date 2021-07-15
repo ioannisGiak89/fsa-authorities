@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/ioannisGiak89/fsa-authorities/app/lib/factory"
+	"github.com/ioannisGiak89/fsa-authorities/app/lib/validation"
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 	"github.com/spf13/cobra"
 )
@@ -54,18 +55,16 @@ var compareCmd = &cobra.Command{
 		}
 
 		appFactory := factory.NewAppFactory()
-		fsaClient := appFactory.BuildFsaClient(baseUrl)
-		fsaService := appFactory.BuildFsaService(fsaClient)
-		validator := appFactory.BuildValidator()
+		fsaClient := appFactory.BuildFSAClient(baseUrl)
+		fsaService := appFactory.BuildFSAService(fsaClient)
 
-		if !validator.IsSchemeValid(schemeType) {
+		if !validation.IsSchemeValid(schemeType) {
 			log.Fatal(errors.New("not supported scheme"))
 		}
 
-		var fsaSchemeRatingDistributions []model.FsaSchemeRatingDistribution
+		var fsaSchemeRatingDistributions []model.FSASchemeRatingDistribution
 		for _, authorityID := range authorityIds {
-
-			if !validator.IsIdValid(authorityID) {
+			if !validation.IsIDValid(authorityID) {
 				log.Fatal(errors.New("please provide a valid authority ID"))
 			}
 
@@ -91,12 +90,12 @@ var compareCmd = &cobra.Command{
 			if authorityScheme == model.FHRS.String() {
 				fsaSchemeRatingDistributions = append(
 					fsaSchemeRatingDistributions,
-					model.NewFhrsSchemeRatingDistribution(authority, e.Establishments),
+					model.NewFHRSSchemeRatingDistribution(authority, e.Establishments),
 				)
 			} else {
 				fsaSchemeRatingDistributions = append(
 					fsaSchemeRatingDistributions,
-					model.NewFhisSchemeRatingDistribution(authority, e.Establishments),
+					model.NewFHISSchemeRatingDistribution(authority, e.Establishments),
 				)
 			}
 		}

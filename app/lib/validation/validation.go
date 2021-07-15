@@ -1,4 +1,4 @@
-package validator
+package validation
 
 import (
 	"strconv"
@@ -7,15 +7,8 @@ import (
 	"github.com/ioannisGiak89/fsa-authorities/app/model"
 )
 
-type Validator struct{}
-
-// NewValidator creates a new validator
-func NewValidator() *Validator {
-	return &Validator{}
-}
-
 // IsSchemeValid check if the Schema is supported
-func (v *Validator) IsSchemeValid(schemeType string) bool {
+func IsSchemeValid(schemeType string) bool {
 	schemeType = strings.ToUpper(schemeType)
 
 	if schemeType == model.FHRS.String() || schemeType == model.FHIS.String() {
@@ -25,8 +18,8 @@ func (v *Validator) IsSchemeValid(schemeType string) bool {
 	return false
 }
 
-// IsIdValid checks if the provided ID is a number
-func (v *Validator) IsIdValid(id string) bool {
+// IsIDValid checks if the provided ID is a number
+func IsIDValid(id string) bool {
 	_, err := strconv.Atoi(id)
 
 	if err != nil {

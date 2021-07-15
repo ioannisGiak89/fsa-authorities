@@ -12,27 +12,26 @@ type HygieneRatingSystemService interface {
 	// GetAuthorities gets a list with all the authorities and some basic information
 	GetAuthorities() (*model.AuthoritiesResponse, error)
 
-	// GetAuthorities gets a list with all the authorities and some basic information
+	// GetAuthorityByID gets a specific authority by it's ID.
 	GetAuthorityByID(authorityId string) (*model.Authority, error)
 
 	// GetEstablishments gets all the Establishments for a given authority id
 	GetEstablishments(authorityId string) (*model.EstablishmentsResponse, error)
 }
 
-// FsaService implements the HygieneRatingSystemService interface
-type FsaService struct {
-	fsaClient client.FsaClient
+// FSAService implements the HygieneRatingSystemService interface
+type FSAService struct {
+	fsaClient client.FSAClient
 }
 
-// NewFsaService creates a new FsaService
-func NewFsaService(fsaClient client.FsaClient) HygieneRatingSystemService {
-	return &FsaService{
+// NewFSAService creates a new FSAService
+func NewFSAService(fsaClient client.FSAClient) HygieneRatingSystemService {
+	return &FSAService{
 		fsaClient: fsaClient,
 	}
 }
 
-func (fs *FsaService) GetAuthorityByID(authorityId string) (*model.Authority, error) {
-
+func (fs *FSAService) GetAuthorityByID(authorityId string) (*model.Authority, error) {
 	cr, err := fs.fsaClient.Get("Authorities/" + authorityId)
 
 	if err != nil {
@@ -49,7 +48,7 @@ func (fs *FsaService) GetAuthorityByID(authorityId string) (*model.Authority, er
 	return &authority, nil
 }
 
-func (fs *FsaService) GetAuthorities() (*model.AuthoritiesResponse, error) {
+func (fs *FSAService) GetAuthorities() (*model.AuthoritiesResponse, error) {
 	cr, err := fs.fsaClient.Get("Authorities/basic")
 
 	if err != nil {
@@ -66,7 +65,7 @@ func (fs *FsaService) GetAuthorities() (*model.AuthoritiesResponse, error) {
 	return &authorities, nil
 }
 
-func (fs *FsaService) GetEstablishments(authorityId string) (*model.EstablishmentsResponse, error) {
+func (fs *FSAService) GetEstablishments(authorityId string) (*model.EstablishmentsResponse, error) {
 	cr, err := fs.fsaClient.Get("Establishments?localAuthorityId=" + authorityId)
 
 	if err != nil {
