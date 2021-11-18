@@ -1,0 +1,18 @@
+I made a branch in your repo with some changes. Most of these are stylistic changes, just to be more idiomatic Go: https://github.com/ioannisGiak89/fsa-authorities/compare/main...review
+Just things like abbreviations are all caps in Go usually (e.g. it sounds daft, but instead of FsaRestClient it’d be FSARESTClient lol), and just some other little things
+Package names normally don’t have capital letters in too (testUtils becomes testutils )
+Aah yes, in that branch I’ve also removed all of the break statements, unlike a lot of languages, you have to explicitly fall through case statements (using fallthrough), so no break needed!
+You can definitely see your Java influence here :wink:, there were 2 things that stuck out to me; the embedding of Table into CompareTable (like inheritance) - it’s not a bad thing, just quite rare in Go, and you defined your own error interface - interfaces are implicit in Go, and the standard library already has that interface so yours wasn’t actually doing anything
+Folder structure was sensible. It’s a tricky one, again, this is something that’s different in Go to how you might often work in other languages. In PHP with Symfony we used to have Controller, Entities, Repositories, so on, as folders. In Go it’s generally better to have domains be package names (like fsa would be a sane package name) because the package name is included in all of the types when you reference them elsewhere (e.g. you could have fsa.Client, and that actually reads really well), whereas if you go with the Java / PHP sort of approach you have client.FSAClient which leaves you with what we call a stutter (client being in the name twice).
+If you go with the domain oriented package naming, it can feel a bit wrong at first. It took me a while to get used to it and having so much code colocated, but it makes a big difference later on
+So, all of that is idioms really, nothing bad, nothing unexpected with your Go experience, and I’m sure you’d pick that stuff up really quickly
+There is one thing I always look out for on the test though that you did miss, which was using concurrency. The reason I like this as a test is because it’s a really good candidate for concurrency (i.e. you’re making multiple HTTP requests to the same endpoint, and it’s not a super fast API really, it’d genuinely be about twice as fast to request both sets of ratings at the same time). But I get it, when you’re new to Go, doing all of the rest of this stuff and then piling concurrency on the top is going to be a little tricky! (edited)
+
+
+Elliot Wright:gopher-flat:  10:07 AM
+There was a lot of good stuff in here though too:
+It worked, and the output was good - it was easy to compare the results
+Has tests, and the tests are sensible, and because you used DI you’re able to test things well
+Has the AppFactory, it’s bit of a Java name :wink:, but we use a very similar thing (we just call it Container), and there’s a small difference with ours, which is that it’s a little more stateful; Container methods call other Container methods to construct dependencies if needed, instead of passing them in, and it handles any errors when constructing things too.
+You made some sensible decisions around library choices with Cobra and Testify too
+You used Go modules - the up-to-date way to deal with dependencies
